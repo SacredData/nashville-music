@@ -1,1 +1,39 @@
-{"name":"Exit/In","type":"venue","id":"rZ7HnEZa6iQ","test":false,"url":"https://www.ticketweb.com/venue/exitin-nashville-tn/31514","locale":"en-us","postalCode":"37203","timezone":"America/Chicago","city":{"name":"Nashville"},"state":{"name":"Tennessee","stateCode":"TN"},"country":{"name":"United States Of America","countryCode":"US"},"address":{"line1":"2208 Elliston Place"},"location":{"longitude":"-86.804438","latitude":"36.151435"},"upcomingEvents":{"ticketmaster":1,"ticketweb":40,"_total":41,"_filtered":0},"_links":{"self":{"href":"/discovery/v2/venues/rZ7HnEZa6iQ?locale=en-us"}}}
+{
+  "name": "Exit/In",
+  "type": "venue",
+  "id": "rZ7HnEZa6iQ",
+  "test": false,
+  "url": "https://www.ticketweb.com/venue/exitin-nashville-tn/31514",
+  "locale": "en-us",
+  "postalCode": "37203",
+  "timezone": "America/Chicago",
+  "city": {
+    "name": "Nashville"
+  },
+  "state": {
+    "name": "Tennessee",
+    "stateCode": "TN"
+  },
+  "country": {
+    "name": "United States Of America",
+    "countryCode": "US"
+  },
+  "address": {
+    "line1": "2208 Elliston Place"
+  },
+  "location": {
+    "longitude": "-86.804438",
+    "latitude": "36.151435"
+  },
+  "upcomingEvents": {
+    "ticketmaster": 1,
+    "ticketweb": 40,
+    "_total": 41,
+    "_filtered": 0
+  },
+  "_links": {
+    "self": {
+      "href": "/discovery/v2/venues/rZ7HnEZa6iQ?locale=en-us"
+    }
+  }
+}

@@ -1,1 +1,38 @@
-{"name":"The Bluebird Cafe","type":"venue","id":"rZ7HnEZ17fdZg","test":false,"url":"https://www.ticketweb.com/venue/the-bluebird-cafe-nashville-tn/503035","locale":"en-us","postalCode":"37215","timezone":"America/Chicago","city":{"name":"Nashville"},"state":{"name":"Tennessee","stateCode":"TN"},"country":{"name":"United States Of America","countryCode":"US"},"address":{"line1":"4104 Hillsboro Pike"},"location":{"longitude":"-86.8178113","latitude":"36.1016781"},"upcomingEvents":{"ticketweb":75,"_total":75,"_filtered":0},"_links":{"self":{"href":"/discovery/v2/venues/rZ7HnEZ17fdZg?locale=en-us"}}}
+{
+  "name": "The Bluebird Cafe",
+  "type": "venue",
+  "id": "rZ7HnEZ17fdZg",
+  "test": false,
+  "url": "https://www.ticketweb.com/venue/the-bluebird-cafe-nashville-tn/503035",
+  "locale": "en-us",
+  "postalCode": "37215",
+  "timezone": "America/Chicago",
+  "city": {
+    "name": "Nashville"
+  },
+  "state": {
+    "name": "Tennessee",
+    "stateCode": "TN"
+  },
+  "country": {
+    "name": "United States Of America",
+    "countryCode": "US"
+  },
+  "address": {
+    "line1": "4104 Hillsboro Pike"
+  },
+  "location": {
+    "longitude": "-86.8178113",
+    "latitude": "36.1016781"
+  },
+  "upcomingEvents": {
+    "ticketweb": 75,
+    "_total": 75,
+    "_filtered": 0
+  },
+  "_links": {
+    "self": {
+      "href": "/discovery/v2/venues/rZ7HnEZ17fdZg?locale=en-us"
+    }
+  }
+}

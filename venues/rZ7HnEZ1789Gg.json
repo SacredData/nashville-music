@@ -1,1 +1,39 @@
-{"name":"The Basement East","type":"venue","id":"rZ7HnEZ1789Gg","test":false,"url":"https://www.ticketweb.com/venue/the-basement-east-nashville-tn/417335","locale":"en-us","postalCode":"37206","timezone":"America/Chicago","city":{"name":"Nashville"},"state":{"name":"Tennessee","stateCode":"TN"},"country":{"name":"United States Of America","countryCode":"US"},"address":{"line1":"917 Woodland St"},"location":{"longitude":"-86.755652","latitude":"36.175636"},"upcomingEvents":{"ticketweb":90,"ticketmaster":31,"_total":121,"_filtered":0},"_links":{"self":{"href":"/discovery/v2/venues/rZ7HnEZ1789Gg?locale=en-us"}}}
+{
+  "name": "The Basement East",
+  "type": "venue",
+  "id": "rZ7HnEZ1789Gg",
+  "test": false,
+  "url": "https://www.ticketweb.com/venue/the-basement-east-nashville-tn/417335",
+  "locale": "en-us",
+  "postalCode": "37206",
+  "timezone": "America/Chicago",
+  "city": {
+    "name": "Nashville"
+  },
+  "state": {
+    "name": "Tennessee",
+    "stateCode": "TN"
+  },
+  "country": {
+    "name": "United States Of America",
+    "countryCode": "US"
+  },
+  "address": {
+    "line1": "917 Woodland St"
+  },
+  "location": {
+    "longitude": "-86.755652",
+    "latitude": "36.175636"
+  },
+  "upcomingEvents": {
+    "ticketweb": 90,
+    "ticketmaster": 31,
+    "_total": 121,
+    "_filtered": 0
+  },
+  "_links": {
+    "self": {
+      "href": "/discovery/v2/venues/rZ7HnEZ1789Gg?locale=en-us"
+    }
+  }
+}
