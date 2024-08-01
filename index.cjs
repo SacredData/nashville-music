@@ -34,16 +34,21 @@ function getNextDay(dayName) {
 }
 
 const nextMonday = getNextDay("Monday");
+const nextTuesday = getNextDay("Tuesday");
 const nextWednesday = getNextDay("Wednesday");
 const nextThursday = getNextDay("Thursday");
 const nextFriday = getNextDay("Friday");
 const nextSaturday = getNextDay("Saturday");
 const nextSunday = getNextDay("Sunday");
+const nextWeekMon = new Date();
+const nextWeekTues = new Date();
 const nextWeekWed = new Date();
 const nextWeekThurs = new Date();
 const nextWeekFri = new Date();
 const nextWeekSat = new Date();
 const nextWeekSun = new Date();
+nextWeekMon.setDate(nextMonday.getDate() + 1 * 7);
+nextWeekTues.setDate(nextTuesday.getDate() + 1 * 7);
 nextWeekWed.setDate(nextWednesday.getDate() + 1 * 7);
 nextWeekThurs.setDate(nextThursday.getDate() + 1 * 7);
 nextWeekFri.setDate(nextFriday.getDate() + 1 * 7);
@@ -132,48 +137,81 @@ function parseString(event) {
   return { string, infoUrl, event };
 }
 
-ticketmaster("7CkCoGcODcnxjvrVJZpWGtI6HaEt8PbF")
-  .discovery.v2.event.all({
-    city: "Nashville",
-    startDateTime: `${new Date(nextWeekSat).toJSON().split(".")[0]}Z`,
-    //endDateTime: `${new Date(nextSunday).toJSON().split(".")[0]}Z`,
-    sort: "date,asc",
-    classificationName: "music",
-  })
-  .then(async function (result) {
-    const filteredRes = result.items.map((r) => {
-      const keys = Object.keys(r).reduce(function (obj, k) {
-        if (keysWeCareAbout.includes(k)) obj[k] = r[k];
-        return obj;
-      }, {});
-      return keys;
-    });
-    console.log(filteredRes);
+[nextWeekMon, nextWeekTues, nextWeekWed, nextWeekThurs, nextWeekFri, nextWeekSat].forEach(day => {
+	ticketmaster("7CkCoGcODcnxjvrVJZpWGtI6HaEt8PbF")
+	  .discovery.v2.event.all({
+	    city: "Nashville",
+	    startDateTime: `${new Date(day).toJSON().split(".")[0]}Z`,
+	    //endDateTime: `${new Date(nextSunday).toJSON().split(".")[0]}Z`,
+	    sort: "date,asc",
+	    classificationName: "music",
+	  })
+	  .then(async function (result) {
+	    const filteredRes = result.items.map((r) => {
+	      const keys = Object.keys(r).reduce(function (obj, k) {
+		if (keysWeCareAbout.includes(k)) obj[k] = r[k];
+		return obj;
+	      }, {});
+	      return keys;
+	    });
+	    console.log(filteredRes);
 
-    const onsaleOnly = filteredRes.filter(
-      (r) => r.dates.status.code !== "offsale",
-    );
-    console.log(onsaleOnly);
+	    const onsaleOnly = filteredRes.filter(
+	      (r) => r.dates.status.code !== "offsale",
+	    );
+	    console.log(onsaleOnly);
 
-    const allImportantInfo = onsaleOnly.map((o) => parseString(o));
-    console.log(allImportantInfo);
+	    const allImportantInfo = onsaleOnly.map((o) => parseString(o));
+	    console.log(allImportantInfo);
 
-    fs.writeFileSync("ticketmaster.json", JSON.stringify(allImportantInfo));
+	    const dayOfWeek = new Date(day).getDay()
+	    let dayName
+	    switch (dayOfWeek) {
+		case 0:
+	    	 dayName = 'sunday'
+		break
+		case 1:
+		 dayName = 'monday'
+	        break
+		case 2:
+		dayName = 'tuesday'
+		break
+		case 3:
+		dayName = 'wednesday'
+		break
+		case 4:
+		dayName = 'thursday'
+		break
+		case 5:
+		dayName = 'friday'
+		break
+		case 6:
+		dayName = 'saturday'
+		break
+		default:
+		break
+	    }
+	    fs.writeFileSync(`./shows/${dayName}.json`, JSON.stringify(allImportantInfo));
 
-    allImportantInfo.forEach((i) => {
-      console.log(i.string);
-      console.log(`[Info](${i.infoUrl})`, "\n");
-    });
+	    let theDayString = ''
+	    allImportantInfo.forEach((i) => {
+	      console.log(i.string);
+	      console.log(`[Info](${i.infoUrl})`, "\n");
+	      theDayString += `${i.string} [Info](${i.infoUrl})\n\n`
+	      fs.writeFileSync(`./shows/${dayName}`, theDayString)
+	    });
 
-    console.log("ALL OF THE VENUE IDS");
-    console.log(venueIds);
+	    console.log("ALL OF THE VENUE IDS");
+	    console.log(venueIds);
 
-    venueIds.forEach(async (v) => {
-      await getVenue(v);
-    });
-    // "result" is an object of Ticketmaster events information
-  })
-  .catch((err) => console.error(err));
+	    venueIds.forEach(async (v) => {
+	      await getVenue(v);
+	    });
+	    // "result" is an object of Ticketmaster events information
+	  })
+	  .catch((err) => console.error(err));
+})
+
 
 async function getVenue(venueId) {
   const res = await fetch(
