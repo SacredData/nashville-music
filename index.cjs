@@ -37,13 +37,18 @@ const nextMonday = getNextDay("Monday");
 const nextWednesday = getNextDay("Wednesday");
 const nextThursday = getNextDay("Thursday");
 const nextFriday = getNextDay("Friday");
+const nextSaturday = getNextDay("Saturday");
+const nextSunday = getNextDay("Sunday");
 const nextWeekWed = new Date();
 const nextWeekThurs = new Date();
 const nextWeekFri = new Date();
+const nextWeekSat = new Date();
+const nextWeekSun = new Date();
 nextWeekWed.setDate(nextWednesday.getDate() + 1 * 7);
 nextWeekThurs.setDate(nextThursday.getDate() + 1 * 7);
 nextWeekFri.setDate(nextFriday.getDate() + 1 * 7);
-console.log(nextWeekFri);
+nextWeekSat.setDate(nextSaturday.getDate() + 1 * 7);
+nextWeekSun.setDate(nextSunday.getDate() + 1 * 7);
 
 //const today = new Date().toLocaleDateString().replaceAll("/", "-");
 
@@ -130,7 +135,7 @@ function parseString(event) {
 ticketmaster("7CkCoGcODcnxjvrVJZpWGtI6HaEt8PbF")
   .discovery.v2.event.all({
     city: "Nashville",
-    startDateTime: `${new Date(nextWeekFri).toJSON().split(".")[0]}Z`,
+    startDateTime: `${new Date(nextWeekSat).toJSON().split(".")[0]}Z`,
     //endDateTime: `${new Date(nextSunday).toJSON().split(".")[0]}Z`,
     sort: "date,asc",
     classificationName: "music",
