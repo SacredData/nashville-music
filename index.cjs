@@ -34,16 +34,21 @@ function getNextDay(dayName) {
 }
 
 const nextMonday = getNextDay("Monday");
+const nextTuesday = getNextDay("Tuesday");
 const nextWednesday = getNextDay("Wednesday");
 const nextThursday = getNextDay("Thursday");
 const nextFriday = getNextDay("Friday");
 const nextSaturday = getNextDay("Saturday");
 const nextSunday = getNextDay("Sunday");
+const nextWeekMon = new Date();
+const nextWeekTues = new Date();
 const nextWeekWed = new Date();
 const nextWeekThurs = new Date();
 const nextWeekFri = new Date();
 const nextWeekSat = new Date();
 const nextWeekSun = new Date();
+nextWeekMon.setDate(nextMonday.getDate() + 1 * 7);
+nextWeekTues.setDate(nextTuesday.getDate() + 1 * 7);
 nextWeekWed.setDate(nextWednesday.getDate() + 1 * 7);
 nextWeekThurs.setDate(nextThursday.getDate() + 1 * 7);
 nextWeekFri.setDate(nextFriday.getDate() + 1 * 7);
@@ -132,48 +137,60 @@ function parseString(event) {
   return { string, infoUrl, event };
 }
 
-ticketmaster("7CkCoGcODcnxjvrVJZpWGtI6HaEt8PbF")
-  .discovery.v2.event.all({
-    city: "Nashville",
-    startDateTime: `${new Date(nextWeekSat).toJSON().split(".")[0]}Z`,
-    //endDateTime: `${new Date(nextSunday).toJSON().split(".")[0]}Z`,
-    sort: "date,asc",
-    classificationName: "music",
-  })
-  .then(async function (result) {
-    const filteredRes = result.items.map((r) => {
-      const keys = Object.keys(r).reduce(function (obj, k) {
-        if (keysWeCareAbout.includes(k)) obj[k] = r[k];
-        return obj;
-      }, {});
-      return keys;
-    });
-    console.log(filteredRes);
+async function main() {
+  for await (const date of [
+    nextMonday,
+    nextTuesday,
+    nextWednesday,
+    nextThursday,
+    nextFriday,
+    nextSaturday,
+    nextSunday,
+  ]) {
+    //const selectedDate = nextMonday;
+    const selectedDate = date;
 
-    const onsaleOnly = filteredRes.filter(
-      (r) => r.dates.status.code !== "offsale",
-    );
-    console.log(onsaleOnly);
+    ticketmaster("7CkCoGcODcnxjvrVJZpWGtI6HaEt8PbF")
+      .discovery.v2.event.all({
+        city: "Nashville",
+        startDateTime: `${new Date(date).toJSON().split(".")[0]}Z`,
+        //endDateTime: `${new Date(nextSunday).toJSON().split(".")[0]}Z`,
+        sort: "date,asc",
+        classificationName: "music",
+      })
+      .then(async function (result) {
+        const filteredRes = result.items.map((r) => {
+          const keys = Object.keys(r).reduce(function (obj, k) {
+            if (keysWeCareAbout.includes(k)) obj[k] = r[k];
+            return obj;
+          }, {});
+          return keys;
+        });
+        //console.log(filteredRes);
 
-    const allImportantInfo = onsaleOnly.map((o) => parseString(o));
-    console.log(allImportantInfo);
+        // console.log(new Date(date.getDay()));
+        const onsaleOnly = filteredRes.filter(
+          (r) =>
+            r.dates.status.code !== "offsale" &&
+            new Date(r.dates.start.dateTime).getDay() ==
+              new Date(date).getDay(),
+        );
+        //console.log(onsaleOnly);
 
-    fs.writeFileSync("ticketmaster.json", JSON.stringify(allImportantInfo));
+        const allImportantInfo = onsaleOnly.map((o) => parseString(o));
+        //console.log(allImportantInfo);
 
-    allImportantInfo.forEach((i) => {
-      console.log(i.string);
-      console.log(`[Info](${i.infoUrl})`, "\n");
-    });
+        fs.writeFileSync("ticketmaster.json", JSON.stringify(allImportantInfo));
 
-    console.log("ALL OF THE VENUE IDS");
-    console.log(venueIds);
-
-    venueIds.forEach(async (v) => {
-      await getVenue(v);
-    });
-    // "result" is an object of Ticketmaster events information
-  })
-  .catch((err) => console.error(err));
+        console.log("\n\n\n*****SELECTEDADATE", selectedDate, "\n\n\n");
+        allImportantInfo.forEach((i) => {
+          console.log(i.string);
+          console.log(`[Info](${i.infoUrl})`, "\n");
+        });
+      })
+      .catch((err) => console.error(err));
+  }
+}
 
 async function getVenue(venueId) {
   const res = await fetch(
@@ -182,3 +199,5 @@ async function getVenue(venueId) {
   const j = await res.json();
   fs.writeFileSync(`./venues/${venueId}.json`, JSON.stringify(j));
 }
+
+main();
